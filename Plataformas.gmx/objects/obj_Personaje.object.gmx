@@ -25,7 +25,9 @@
         <arguments>
           <argument>
             <kind>1</kind>
-            <string>jum=20;
+            <string>audio_stop_sound(snd_background)
+audio_play_sound(snd_background,10,false)
+jum=20;
 lat=8;
 grav=2;
 hs=0;
@@ -61,20 +63,28 @@ derecha=keyboard_check(vk_right);
 izquierda=keyboard_check(vk_left);
 salto=keyboard_check_pressed(vk_up);
 
-if (derecha) {obj_Personaje.sprite_index=spr_PersonajeDerecha}
-else 
+//cambio de sprites
+if !place_meeting(x,y+1,obj_bloques)
     {
-    if (izquierda) {obj_Personaje.sprite_index=spr_PersonajeIzquierda}
-    else {obj_Personaje.sprite_index=spr_Personaje}
+    obj_Personaje.sprite_index=spr_salto
+    }
+    else
+    {
+    if (derecha) {obj_Personaje.sprite_index=spr_PersonajeDerecha}
+    else 
+        {
+            if (izquierda) {obj_Personaje.sprite_index=spr_PersonajeIzquierda}
+            else {obj_Personaje.sprite_index=spr_Personaje}
+        }
     }
 
 //mov orizontal
 
 mov = (derecha-izquierda);
 hs = lat*mov;
-if place_meeting(x+hs,y,obj_Bloque)
+if place_meeting(x+hs,y,obj_bloques)
     {
-    while !place_meeting(x+sign(hs),y,obj_Bloque)
+    while !place_meeting(x+sign(hs),y,obj_bloques)
         {x+=sign(hs)}
     hs=0
     }
@@ -84,13 +94,13 @@ x+=hs
 
 if (vs &lt; 20) {vs+=grav}
 
-if place_meeting(x,y+1,obj_Bloque)
+if place_meeting(x,y+1,obj_bloques)
     {
     vs = salto *- jum
     dobleJ=true
     }
-    
-if dobleJ=true and !place_meeting(x,y+1,obj_Bloque)
+ //doble salto   
+if dobleJ=true and !place_meeting(x,y+1,obj_bloques)
     {
         if (salto)
         {
@@ -100,11 +110,11 @@ if dobleJ=true and !place_meeting(x,y+1,obj_Bloque)
     }
 
 
+//colicion vertical
 
-
-if place_meeting(x,y+vs,obj_Bloque)
+if place_meeting(x,y+vs,obj_bloques)
     {
-    while !place_meeting(x,y+sign(vs),obj_Bloque)
+    while !place_meeting(x,y+sign(vs),obj_bloques)
         {y+= sign(vs)}
     vs=0
     }
@@ -112,6 +122,79 @@ y+=(vs)
 
 
 
+</string>
+          </argument>
+        </arguments>
+      </action>
+      <action>
+        <libid>1</libid>
+        <id>603</id>
+        <kind>7</kind>
+        <userelative>0</userelative>
+        <isquestion>0</isquestion>
+        <useapplyto>-1</useapplyto>
+        <exetype>2</exetype>
+        <functionname></functionname>
+        <codestring></codestring>
+        <whoName>self</whoName>
+        <relative>0</relative>
+        <isnot>0</isnot>
+        <arguments>
+          <argument>
+            <kind>1</kind>
+            <string>///next level
+
+if keyboard_check_pressed(vk_shift)
+{room_goto_next()}
+</string>
+          </argument>
+        </arguments>
+      </action>
+    </event>
+    <event eventtype="4" ename="obj_muerte">
+      <action>
+        <libid>1</libid>
+        <id>603</id>
+        <kind>7</kind>
+        <userelative>0</userelative>
+        <isquestion>0</isquestion>
+        <useapplyto>-1</useapplyto>
+        <exetype>2</exetype>
+        <functionname></functionname>
+        <codestring></codestring>
+        <whoName>self</whoName>
+        <relative>0</relative>
+        <isnot>0</isnot>
+        <arguments>
+          <argument>
+            <kind>1</kind>
+            <string>audio_play_sound(snd_muerte,10,false)
+room_restart()
+lives-=1
+</string>
+          </argument>
+        </arguments>
+      </action>
+    </event>
+    <event eventtype="4" ename="obj_meta">
+      <action>
+        <libid>1</libid>
+        <id>603</id>
+        <kind>7</kind>
+        <userelative>0</userelative>
+        <isquestion>0</isquestion>
+        <useapplyto>-1</useapplyto>
+        <exetype>2</exetype>
+        <functionname></functionname>
+        <codestring></codestring>
+        <whoName>self</whoName>
+        <relative>0</relative>
+        <isnot>0</isnot>
+        <arguments>
+          <argument>
+            <kind>1</kind>
+            <string>audio_play_sound(snd_puerta,10,false)
+room_goto_next()
 </string>
           </argument>
         </arguments>
